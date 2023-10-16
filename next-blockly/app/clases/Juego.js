@@ -20,7 +20,7 @@ import {
   PersonajesPosicionAlAzarExcluyente,
   EscenarioFilasAleatoreasSimples,
   ElementoPosicionRandomYEstadoAleatorio,
-  PersonajesFijosRangoAleatoreoEstadoAleatoreo
+  PersonajesFijosRangoAleatoreoEstadoAleatoreo,
 } from "../clases/StrategyCreacion";
 
 import { Modal } from "./Modal";
@@ -49,11 +49,12 @@ export class Juego {
   // La funcion recibe la matriz tablero la unidad de ancho, el color de bordes, nombre imagen pared, nombre imagen camino
 
   generarEscenario(dimensiones, unidadAnchoDeseada, colorBordes) {
-    const elementoHTMLLaberinto = document.getElementById("elemento-escenario");
+    console.log(dimensiones);
+    //const elementoHTMLLaberinto = document.getElementById("elemento-escenario");
     this.escenario = new Escenario(
       dimensiones,
       unidadAnchoDeseada,
-      elementoHTMLLaberinto,
+      // elementoHTMLLaberinto,
       colorBordes
     );
     this.escenario.crearEscenario();

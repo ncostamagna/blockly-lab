@@ -1,84 +1,94 @@
+import React, { Component } from "react";
 import { DHS_Gallery } from "./Dhs-galeria";
 
-export class Escenario {
-  constructor(
-    dimensiones,
-    unidadAnchoDeseada,
-    elementoHTML,
-    colorBordes
-  ) {
+export class Escenario extends Component {
+  constructor(dimensiones, unidadAnchoDeseada, elementoHTML, colorBordes) {
+    super({ dimensiones, unidadAnchoDeseada, elementoHTML, colorBordes });
+    console.log("CONTRS");
+    console.log(dimensiones);
+    this.state = {
+      dimensiones: dimensiones,
+      unidadAnchoDeseada: unidadAnchoDeseada,
+      colorBordes: colorBordes,
+      objetosCasilleros: [],
+    };
     this.galeria = new DHS_Gallery();
-    this.dimensiones = dimensiones;
-    this.unidadAnchoDeseada = unidadAnchoDeseada;
-    this.elementoHTML = elementoHTML;
-    this.colorBordes = colorBordes;
-    this.objetosCasilleros = []; // La matriz de objetos Casillero
   }
+
+  componentDidMount() {
+    this.crearEscenario();
+  }
+
   crearEscenario() {
-    for (let fila = 0; fila < this.dimensiones[0]; fila++) {
+    console.log(this.state.dimensiones);
+    for (let fila = 0; fila < this.state.dimensiones[0]; fila++) {
       let nuevaFila = [];
-      for (let col = 0; col < this.dimensiones[1]; col++) {
+      for (let col = 0; col < this.state.dimensiones[1]; col++) {
         let nuevoCasillero = this.crearCasillero(fila, col);
         nuevaFila.push(nuevoCasillero);
-        this.elementoHTML.appendChild(nuevoCasillero.casilla);
       }
-      this.objetosCasilleros.push(nuevaFila);
+      this.setState((prevState) => ({
+        objetosCasilleros: [...prevState.objetosCasilleros, nuevaFila],
+      }));
     }
 
-    const reglaCasilleros = document.createElement("STYLE");
-    reglaCasilleros.innerHTML = `
-      .casillero{
-        float:left;
-        background-size: cover;
-        width: ${this.unidadAnchoDeseada}em;
-        height: ${this.unidadAnchoDeseada}em;
-        border: 1px solid ${this.colorBordes};
-      }
-     
-      .personaje{
-        width: ${this.unidadAnchoDeseada}em;
-        height: ${this.unidadAnchoDeseada}em;
-        position: absolute;
-      }
-      `;
-    document.querySelector("head").appendChild(reglaCasilleros);
     this.renderizarLaberinto();
   }
 
   crearCasillero(fila, columna) {
-    return new Casillero(fila, columna);
+    return <Casillero fila={fila} columna={columna} />;
   }
 
   renderizarLaberinto() {
-    let anchoTotal = this.unidadAnchoDeseada * this.dimensiones[1];
-    let altoTotal = this.unidadAnchoDeseada * this.dimensiones[0];
-    this.elementoHTML.style.width = anchoTotal + "em";
-    this.elementoHTML.style.height = altoTotal + "em";
+    const anchoTotal =
+      this.state.unidadAnchoDeseada * this.state.dimensiones[1];
+    const altoTotal = this.state.unidadAnchoDeseada * this.state.dimensiones[0];
+
+    return (
+      <div style={{ width: `${anchoTotal}em`, height: `${altoTotal}em` }}>
+        {this.state.objetosCasilleros.map((fila, rowIndex) => (
+          <div key={rowIndex}>
+            {fila.map((casillero, colIndex) => (
+              <React.Fragment key={colIndex}>{casillero}</React.Fragment>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
   }
+
   obtenerCasillero(posicionY, posicionX) {
-    const fila = this.objetosCasilleros[posicionY];
+    const fila = this.state.objetosCasilleros[posicionY];
     const casillero = fila ? fila[posicionX] : null;
     return casillero;
   }
-  iluminarCasilleros(posiciones,classCss){
-    posiciones.forEach((posicion)=>{
-      this.objetosCasilleros[posicion[0]][posicion[1]].agregarClassCss(classCss)
-    })
+
+  iluminarCasilleros(posiciones, classCss) {
+    posiciones.forEach((posicion) => {
+      this.state.objetosCasilleros[posicion[0]][posicion[1]].agregarClassCss(
+        classCss
+      );
+    });
     //console.log("setear classCss")
+  }
+
+  render() {
+    return <div>{/* Render the escenario here */}</div>;
   }
 }
 
-export class Casillero {
-  constructor(fila, columna) {
-    this.fila = fila;
-    this.columna = columna;
-    this.casilla = document.createElement("DIV");
-    this.casilla.classList.add("casillero");
-    this.ocupantes = [];
+class Casillero extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fila: props.fila,
+      columna: props.columna,
+      ocupantes: [],
+    };
   }
 
   esPisable() {
-    return this.tipo == "camino";
+    return this.state.tipo === "camino";
   }
 
   hayColisionCon(colisiones) {
@@ -92,17 +102,25 @@ export class Casillero {
     });
     return obj;
   }
+
   verSiExisteEnArray(object) {
-    let objEncontrado = this.ocupantes.find(
+    let objEncontrado = this.state.ocupantes.find(
       (ocupante) => ocupante.tipoPersonaje === object.con
     );
     return objEncontrado;
   }
 
-  vaciarCasillas(){
-    this.ocupantes=[]
+  vaciarCasillas() {
+    this.setState({ ocupantes: [] });
   }
- agregarClassCss(classCss){
-  this.casilla.classList.add(classCss);
- }
+
+  agregarClassCss(classCss) {
+    // Add your class to the CSS class list
+    // You can add more logic here if needed
+    this.casilla.classList.add(classCss);
+  }
+
+  render() {
+    return <div className="casillero" ref={(el) => (this.casilla = el)}></div>;
+  }
 }
