@@ -89,7 +89,7 @@ export default function Home() {
 
   miJuego.crearPersonajes(conjuntosDePersonajes);
   miJuego.setearPersonajePrincipal(miJuego.listaDePersonajes[49]);
-  miJuego.personajePrincipal.abrirCofre = function () {
+  /* miJuego.personajePrincipal.abrirCofre = function () {
     const intento = this.buscarParaRealizarAccion("cofre", "abrirse");
 
     if (!intento.objetoEncontrado) {
@@ -106,7 +106,7 @@ export default function Home() {
       return this.decirTerminar("¡Oh! Quedaron cofres sin abrir.");
     }
   };
-
+*/
   // BLOCKLY ------------------------------------------------------
   const miControlador = new ControladorStandard(miJuego, velocidadInicial);
   const categoria = new Dhs_Categorias();

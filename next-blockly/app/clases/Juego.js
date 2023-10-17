@@ -50,11 +50,10 @@ export class Juego {
 
   generarEscenario(dimensiones, unidadAnchoDeseada, colorBordes) {
     console.log(dimensiones);
-    //const elementoHTMLLaberinto = document.getElementById("elemento-escenario");
     this.escenario = new Escenario(
       dimensiones,
       unidadAnchoDeseada,
-      // elementoHTMLLaberinto,
+      <div id="elemento-escenario"></div>,
       colorBordes
     );
     this.escenario.crearEscenario();
@@ -78,7 +77,7 @@ export class Juego {
   generarPersonaje(personaje) {
     const clasePersonaje = personaje.clasePersonaje;
     let unPersonaje;
-    if (clasePersonaje) {
+    /*if (clasePersonaje) {
       unPersonaje = new this.clasesPersonajesPosibles[clasePersonaje](
         personaje,
         this
@@ -87,7 +86,7 @@ export class Juego {
       unPersonaje = new PersonajeBasico(personaje, this);
     }
     this.listaDePersonajes.push(unPersonaje);
-    unPersonaje.inicializar();
+    unPersonaje.inicializar();*/
   }
 
   setearPersonajePrincipal(personaje) {

@@ -57,7 +57,7 @@ class Controlador {
         this.detenerEjecucion(); // deshabilitaDetener
         this.rehabilitarBotonEjecutar();
         this.rehabilitarBotonReinicio();
-        this.habilitarEdicionWorkspace()
+        this.habilitarEdicionWorkspace();
       });
     }
     this.deshabilitarBotonDetener();
@@ -70,7 +70,7 @@ class Controlador {
         setTimeout(() => {
           // permite volver a reiniciar pasado medio segundo.
           this.rehabilitarBotonReinicio();
-        },1050);
+        }, 1050);
       });
     }
     this.botonLimpiarWorkspace = botonLimpiarWorkspace;
@@ -504,14 +504,15 @@ export default class ControladorStandard extends Controlador {
     // blocklyWorkspaceConfig,
     // bloquesPreCargados = false
   ) {
-    let elementoOutput = document.getElementById(
+    /*let elementoOutput = document.getElementById(
       "dhs-text-area-output-generado"
-    );
-    super(
+    );*/
+    /*super(
       juego,
       velocidadMilisegundos,
       // blocklyDivId,
       // blocklyWorkspaceConfig,
+      
       document.getElementById("dhs-boton-ejecutar"),
       document.getElementById("dhs-boton-detener"),
       document.getElementById("dhs-boton-reiniciar"),
@@ -520,7 +521,7 @@ export default class ControladorStandard extends Controlador {
       document.getElementById("dhs-input-bloques-sueltos"),
       document.getElementById("dhs-text-area-codigo-generado"),
       elementoOutput ? new MostradorOutput(elementoOutput) : false
-    );
+    );*/
     // if (bloquesPreCargados) {
     //   this.cargarBloquesSerializados(JSON.parse(bloquesPreCargados));
     // }
